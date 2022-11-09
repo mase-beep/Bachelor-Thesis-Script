@@ -1,0 +1,10 @@
+# Cutting seqence lengths to a uniform lenght
+$ process_radtags -p path/samples.input -P  -o path/processed.samples -t 120 --disable_rad_check
+
+# Batch-script for running the main pipeline with the denovo_map.pl wrapper
+$ src=$HOME/path
+
+$ denovo_map.pl -T 8 -m 3 -M 4 -N 5 -o $src/input.directory –samples src/processed.samples --popmap $src/popmaps/popumap.txt --paired
+
+# Script for the populations program, to filter and convert data into multiple data formats for future use in diverse pipelines
+$ populations -P path/input_directory -O path/populations.output -Mpath/popmaps/popumap.txt -r 0.65 --phylip --phylip_var --structure -t 8
