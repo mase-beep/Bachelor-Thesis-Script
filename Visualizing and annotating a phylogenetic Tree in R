@@ -1,0 +1,40 @@
+# Visualizing a phylogenetic tree with the RAxML generated tree data.
+rm (list = ls())
+setwd("~/R/raxmlng")
+library(BiocManager)
+library(ggtree)
+library(treeio)
+library(ggplot2)
+library(reshape2)
+library(ggstance)
+library(dplyr)
+
+# loading the RAxML file as value into RStudio
+raxml_file <- system.file("extdata/RAxML/",
+                          "carlina.support.H3", 
+                          package="treeio")
+
+# reading in the tree data
+tr <- read.tree(raxml_file)
+
+#creating a data-frame with metadata
+group = read.table('group.txt', sep = '\t', col.names = c('ID', 'genus', 'species', 'sub', 'subspecies', 'location'), header = FALSE, stringsAsFactors = FALSE)
+
+gdata = as.data.frame(group)
+
+df <- gdata %>%  
+  mutate(ID = as.character(ID))
+
+# changing the tree root
+tree <- root(tr, node = 51, edgelabel = TRUE)
+
+# adding data from the dataframe to the tree
+tree1 <- full_join(as_tibble(tree), df, by = c('label' = 'ID'))
+tree2 = as.treedata(tree1)
+
+# plotting the tree with a legend and coloring groups
+ggtree(tree2, branch.length = "none") + geom_tiplab(aes(color = location), size = 11) + 
+  xlim(NA, 20) + theme(legend.position = "left", legend.justification = "top", legend.direction='vertical',legend.key.size = unit(1.25, 'cm'),legend.title = element_text(size=35), legend.text = element_text(size=30)) 
+
+# saving the tree as png 
+ggsave(filename = "tree.png" , device = "png", width = 15, height = 30 , units = "in" , limitsize = FALSE)
