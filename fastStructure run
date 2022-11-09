@@ -1,0 +1,21 @@
+$ python structure.py -K 1--input=path/input --output=path/output --format=str
+$ python structure.py -K 3 --input=path/input --output=path/output --format=str
+$ python structure.py -K 4 --input=path/input --output=path/output --format=str
+$ python structure.py -K 5 --input=path/input --output=path/output --format=str
+$ python structure.py -K 6 --input=path/input --output=path/output --format=str
+$ python structure.py -K 7 --input=path/input --output=path/output --format=str
+$ python structure.py -K 8 --input=path/input --output=path/output --format=str
+$ python structure.py -K 9 --input=path/input --output=path/output --format=str
+$ python structure.py -K 10 --input=path/input --output=path/output --format=str
+$ python structure.py -K 11 --input=path/input --output=path/output --format=str
+$ python structure.py -K 12 --input=path/input --output=path/output --format=str
+$ python structure.py -K 13 --input=path/input --output=path/output --format=str
+$ python structure.py -K 14 --input=path/input --output=path/output --format=str
+$ python structure.py -K 15 --input=path/input --output=path/output --format=str
+$ python structure.py -K 16 --input=path/input --output=path/output --format=str
+$ python structure.py -K 17 --input=path/input --output=path/output --format=str
+$ python structure.py -K 18 --input=path/input --output=path/output --format=str
+$ python structure.py -K 19 --input=path/input --output=path/output --format=str
+$ python structure.py -K 20 --input=path/input --output=path/output --format=str
+
+$ python chooseK.py –input=path/input 
