@@ -1,0 +1,75 @@
+# R script used to calculate and plot a Principal Component Analysis for the cretan populations. 
+# This script is a personal script including script-lines from Mark Ravinet and Joana Meiers 
+# "Speciation & Population Genomics: a-how-to guide" (https://speciationgenomics.github.io/pca)
+
+rm (list = ls())
+setwd("~/R/pca")
+library(tidyverse)
+library(ggfortify)
+library(RColorBrewer)
+ 
+# function to run plink
+plinkrun <- function(PLINKoptions = "") system(paste("plink", PLINKoptions))
+
+# perform pca
+plinkrun("--ped pca.ped --map pca.map --double-id --allow-extra-chr --set-missing-var-ids @:# --geno 0.1 --maf 0.1 --mind 0.9 --make-bed --pca --out carlina")
+
+# PLOTTING
+# read in data
+pca1 <- read_table("carlina.eigenvec", col_names = FALSE)
+pca <- pca1 %>%  filter(!row_number() %in% c(39, 40, 41, 42, 43, 44, 45, 46, 47))
+rm(pca1)
+eigenval <- scan("carlina.eigenval")
+
+# sort out pca data
+# remove nuisance column
+pca <- pca[,-2]
+
+# set names
+names(pca)[1] <- "ind"
+names(pca)[2:ncol(pca)] <- paste0("PC", 1:(ncol(pca)-1))
+
+# sort out the individual species and pops
+# spp
+spp <- rep(NA, length(pca$ind))
+spp[grep("1", pca$ind)] <- "Carlina graeca"
+spp[grep("2", pca$ind)] <- "Carlina graeca"
+spp[grep("3", pca$ind)] <- "Carlina graeca"
+spp[grep("4", pca$ind)] <- "Carlina graeca"
+spp[grep("5", pca$ind)] <- "Carlina graeca"
+spp[grep("6", pca$ind)] <- "Carlina graeca"
+spp[grep("7", pca$ind)] <- "Carlina curetum"
+spp[grep("8", pca$ind)] <- "Carlina curetum"
+spp[grep("9", pca$ind)] <- "Carlina curetum"
+spp[grep("10", pca$ind)] <- "Carlina curetum"
+spp[grep("11", pca$ind)] <- "Carlina sitiensis"
+spp[grep("12", pca$ind)] <- "Carlina sitiensis"
+spp[grep("13", pca$ind)] <- "Carlina sitiensis"
+spp[grep("14", pca$ind)] <- "Carlina barnebiana"
+spp[grep("15", pca$ind)] <- "Carlina spec."
+spp[grep("16", pca$ind)] <- "Carlina spec."
+spp[grep("17", pca$ind)] <- "Carlina spec."
+spp[grep("18", pca$ind)] <- "Carlina spec."
+spp[grep("19", pca$ind)] <- "Carlina spec."
+#spp[grep("20", pca$ind)] <- "C. corymbosae"
+#spp[grep("21", pca$ind)] <- "C. vulgaris subsp. brevibracteata"
+#spp[grep("22", pca$ind)] <- "C. corymbosa subsp. graeca"
+#spp[grep("23", pca$ind)] <- "C. corymbosa subsp. graeca"
+#spp[grep("24", pca$ind)] <- "C. hispanica"
+#spp[grep("25", pca$ind)] <- "C. hispanica"
+#spp[grep("26", pca$ind)] <- "C. hispanica"
+#spp[grep("27", pca$ind)] <- "C. corymbosae"
+#spp[grep("28", pca$ind)] <- "C. macrocephala moris subsp. macrocephala"
+
+# remake data.frame
+pca <- as_tibble(data.frame(pca, spp))
+
+# first convert to percentage variance explained
+pve <- data.frame(PC = 1:20, pve = eigenval/sum(eigenval)*100)
+
+# plotting pca in a 2D scatterplot
+df <- pca[2:4]
+pca_res <- prcomp(df, scale. = TRUE)
+
+a <- autoplot(pca_res, data = pca, colour = 'spp')
+a + scale_color_brewer(palette = "Set1")
