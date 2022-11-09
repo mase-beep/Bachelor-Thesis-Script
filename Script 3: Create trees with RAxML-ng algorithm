@@ -1,1 +1,2 @@
-$ raxml-ng --all --msa path/var/populations.var.phylip --model LG+G8+F --tree pars{10}--bs-trees 200
+# All in one RAxML-ng tre inferrence script (https://github.com/amkozlov/raxml-ng)
+raxml-ng --all --msa path/var/populations.var.phylip --model LG+G8+F --tree pars{10}--bs-trees 200
