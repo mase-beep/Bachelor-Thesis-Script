@@ -34,7 +34,8 @@ tree2 = as.treedata(tree1)
 
 # plotting the tree with a legend and coloring groups
 ggtree(tree2, branch.length = "none") + geom_tiplab(aes(color = location), size = 11) + 
-  xlim(NA, 20) + theme(legend.position = "left", legend.justification = "top", legend.direction='vertical',legend.key.size = unit(1.25, 'cm'),legend.title = element_text(size=35), legend.text = element_text(size=30)) 
+  xlim(NA, 20) + theme(legend.position = "left", legend.justification = "top", legend.direction='vertical',legend.key.size = unit(1.25, 'cm'),legend.title = element_text(size=35), legend.text = element_text(size=30)) +
+  geom_nodelab(aes(label = label), hjust = 1.25, vjust = -0.4, size = 10)
 
 # saving the tree as png 
 ggsave(filename = "tree.png" , device = "png", width = 15, height = 30 , units = "in" , limitsize = FALSE)
